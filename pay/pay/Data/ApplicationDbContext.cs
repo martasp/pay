@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using pay.Models;
-
 namespace pay.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -22,5 +21,7 @@ namespace pay.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<User> User { get; set; }
     }
 }

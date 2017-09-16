@@ -1,0 +1,80 @@
+@model IEnumerable<pay.Models.ViewModels.UserViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<input type="text" id="myInput" onkeyup="filter()" placeholder="Search Name or Surname">
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Surname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NetSalary)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GroosSalary)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+@foreach (var item in Model) {
+        <tr id="tr">
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+           </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroosSalary)
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> 
+                } |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>
+<form action="index" method="post">
+    <input class="btn-default" type="submit" value="Previous" formaction="/Employers/index/@ViewData["down"]" />
+    <input class="btn-success" type="submit" value="Next" formaction="/Employers/index/@ViewData["up"]" />
+</form>
+@section Scripts
+{
+   <script>
+       function filter() {
+           // Declare variables
+           var input, filter, li, a, i;
+           input = document.getElementById('myInput');
+           filter = input.value.toUpperCase();
+           tbody = document.getElementById("tbody");
+           var tr = tbody.getElementsByTagName("tr")
+           for (i = 0; i < tr.length; i++) {
+               var alltd = tr[i].getElementsByTagName("td");
+               var name = alltd[0].innerText;
+               var surname = alltd[1].innerText;
+               if (name.toUpperCase().startsWith(filter) || surname.toUpperCase().startsWith(filter) || filter =="") {
+                   tr[i].style.display = "";
+               } else {
+                   tr[i].style.display = "none";
+               }
+           }
+       }
+</script>
+
+}
